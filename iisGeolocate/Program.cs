@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -153,7 +153,7 @@ namespace iisGeolocate
                             var csv = new CsvReader(instream);
                             csv.Configuration.Delimiter = " ";
                             csv.Configuration.HasHeaderRecord = false;
-                            csv.Configuration.BadDataFound = null;
+                            //csv.Configuration.BadDataFound = null;
 
                             csv.Read();
 
@@ -208,7 +208,7 @@ namespace iisGeolocate
                             while (csv.Read())
                             {
                                 rawLine = csv.Context.RawRecord.Trim();
-                                
+
                                 if (rawLine.StartsWith("#"))
                                 {
                                     continue;
@@ -219,7 +219,7 @@ namespace iisGeolocate
                                 var rec = (IDictionary<string, object>) currentRecord;
 
                                 var key = $"Field{dataSlot + 1}"; //fields start at 1
-
+                                
                                 var ipAddress = ((string) rec[key]).Replace("\"", "");
 
                                 if (ipAddress.StartsWith("fe80"))
@@ -227,6 +227,15 @@ namespace iisGeolocate
                                     continue;
                                 }
 
+                                if (ipAddress == "127.0.0.1")
+                                {
+                                    continue;
+                                }
+
+                                if (ipAddress == "::1")
+                                {
+                                    continue;
+                                }
                                 //do ip work
 
                                 var geoCity = "NA";
