@@ -153,7 +153,7 @@ namespace iisGeolocate
                             var csv = new CsvReader(instream);
                             csv.Configuration.Delimiter = " ";
                             csv.Configuration.HasHeaderRecord = false;
-                            //csv.Configuration.BadDataFound = null;
+                            csv.Configuration.BadDataFound = null;
 
                             csv.Read();
 
